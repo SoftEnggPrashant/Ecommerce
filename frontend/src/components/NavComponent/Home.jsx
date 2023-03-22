@@ -1,5 +1,5 @@
 import { Box, Heading, HStack, Image, VStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import img1 from "../../assets/social-media.jpg";
@@ -7,26 +7,19 @@ import img2 from "../../assets/web-design.jpg";
 import img3 from "../../assets/web-development.jpg";
 import img4 from "../../assets/ecommerce.jpg";
 import Card from "../card/Card";
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from "../../Actions/ProductAction";
 
 const Home = () => {
 
-  const[products,setData] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.data);
 
   useEffect(() => {
-    const getData = async() =>{
-      try {
-        const {data} = await axios.get('http://localhost:4000/api/v1/products');
-        console.log(data);
-        setData(data.products);
-      }
-      catch(error){
-        console.log(error);
-      }    
-    }
-    getData();
+    dispatch(fetchProduct());
+  }, [dispatch])
 
-  }, [])
+  if(!products) return;
   
   return (
     <VStack w={"100%"} gap={5} bgImage={'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)'} >

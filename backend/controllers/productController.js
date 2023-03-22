@@ -24,8 +24,9 @@ exports.CreateProduct = catchAsyncErrors( async (req,res,next)=>{
 // Get all products
 
 exports.getAllProducts = catchAsyncErrors( async (req,res)=>{
+    
 
-    const resultPerPage = 20;
+    const resultPerPage = 10;
 
     const productCount = await Product.countDocuments();
 
@@ -234,6 +235,26 @@ exports.deleteReview = catchAsyncErrors( async (req,res,next)=>{
             success : true
         }
     )
+})
+
+exports.getAllCategoryProduct = catchAsyncErrors( async(req,res,next)=>{
+
+    const category = await Product.find();
+    if(req.query.category === "All"){
+        res.status(200).json(
+            {
+                success : true,
+                products : category
+            })
+    }
+    else{
+        res.status(200).json(
+            {
+                success : true,
+                products : category.filter((product) => product.category === req.query.category)
+            })
+    }
+
 })
 
 

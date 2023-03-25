@@ -120,7 +120,6 @@ exports.productDetails = catchAsyncErrors( async (req,res,next)=>{
         {
             success : true,
             product,
-            productCount
         }
     )
 });

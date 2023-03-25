@@ -23,7 +23,7 @@ const Home = () => {
   
   return (
     <VStack w={"100%"} gap={5} bgImage={'linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)'} >
-      <Box w={"full"} mt={3}>
+      <Box w={"full"} mt={'4rem'}>
         <Carousel
           // autoPlay={true}
           showArrows={true}
@@ -51,7 +51,7 @@ const Home = () => {
           products.map((product,index) => (
             <Card
               key={product._id}
-              id={product.id}
+              id={product._id}
               title={product.name}
               price={product.price}
               img={products[index].images[0].url}

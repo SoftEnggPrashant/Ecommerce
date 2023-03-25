@@ -25,7 +25,7 @@ const Products = () => {
   }, [category]);
 
   return (
-    <HStack mb={6} alignItems={"flex-start"} gap={5}>
+    <HStack mb={6} alignItems={"flex-start"} gap={5} pt={'5rem'} >
       <VStack
         w={"40rem"}
         minH={"85vh"}

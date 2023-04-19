@@ -53,8 +53,6 @@ exports.loginUser = catchAsyncErrors( async (req,res,next)=>{
         return next(new Errorhandler("Invalid username and password",401));
     }
 
-    const token = user.getJWTToken();
-
     sendToken(user,200,res);
 })
 

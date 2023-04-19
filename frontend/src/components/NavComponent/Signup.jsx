@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormHelperText,
   Heading,
   HStack,
   IconButton,
@@ -16,8 +17,6 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 
 const Signup = (props) => {
-
-  const {setAuthenticated,setProfileData} = props;
 
   const [userData, setUserData] = useState({
     name: "",
@@ -57,17 +56,13 @@ const Signup = (props) => {
 
   const registerUser = async(userData) =>{
     try{
-
       const {data} = await axios.post('http://localhost:4000/api/v1/register',userData);
       console.log(data);
-      setAuthenticated(true);
-      setProfileData(data.user);
-      localStorage.setItem('user',data.user);
       navigate('/');
-
     }
     catch(error){
-      console.log(error);
+      console.log("signup error",error.response.data.message);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -192,6 +187,7 @@ const Signup = (props) => {
                   />
                 ) : null
               }
+              <FormHelperText>Image size less then 50kb</FormHelperText>
             </FormControl>
           </VStack>
           <HStack justifyContent={"space-between"} mt={10}>

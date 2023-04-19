@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./components/NavComponent/Home";
 import Footer from "./components/layouts/Footer";
 import Header from "./components/layouts/Header";
@@ -9,80 +9,108 @@ import SearchProduct from "./components/NavComponent/SearchProduct";
 import Login from "./components/NavComponent/Login";
 import Signup from "./components/NavComponent/Signup";
 import Profile from "./components/NavComponent/Profile";
+import Orders from "./components/Admin/Orders";
+import UpdateProduct from "./components/Admin/UpdateProduct";
 import "./App.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CardDetail from "./components/card/CardDetail";
-import { toast } from "react-toastify";
+import PrivateRoute from "./components/CustomRoute/PrivateRoute";
+import AdminRoute from "./components/CustomRoute/AdminRoute";
+import Dashboard from "./components/Admin/Dashboard";
+import CreateProduct from "./components/Admin/CreateProduct";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./Actions/UserActions";
+import Users from "./components/Admin/Users";
+import AdminProducts from "./components/Admin/AdminProducts";
+import { Stack } from "@chakra-ui/react";
+import Carts from "./components/Pages/Carts";
 
 function App() {
-
-  const isAuthentication = ()=>{
-    if(localStorage.getItem("token")){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  const [isAuthenticated, setAuthenticated] = useState(false);
-  const [profileData,setProfileData] = useState({});
-
-  const navigate = useNavigate();
-
-  const login = async (loginData) => {
-    try {
-      const { data } = await axios.post(
-        "http://localhost:4000/api/v1/login",
-        loginData
-      );
-      setProfileData(data.user)
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setAuthenticated(true);
-      navigate('/');
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setAuthenticated(isAuthentication());
-  },[isAuthenticated]);
-  
+    dispatch(loadUser());
+  }, [dispatch]);
 
   return (
-    <div className="wrapper">
-      <Header isAuthenticated={isAuthenticated} />
+    <Stack className="wrapper">
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/searchproduct" element={<SearchProduct />} />
-        <Route path="/cardDetail/:id" element={<CardDetail />}/>
+        <Route path="/cardDetail/:id" element={<CardDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route
-          path="/login"
+          path="/profile"
           element={
-            <Login
-              login={login}
-            />
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
           }
         />
         <Route
-          path="/signup"
+          path="/carts"
           element={
-            <Signup
-              setProfileData={setProfileData}
-              setAuthenticated={setAuthenticated}
-            />
+            <PrivateRoute>
+              <Carts />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <Dashboard />
+            </AdminRoute>
           }
         />
-        <Route path="/profile" element={<Profile profileData={profileData} setAuthenticated={setAuthenticated} />} />
+        <Route
+          path="/admin/newProduct"
+          element={
+            <AdminRoute>
+              <CreateProduct />
+            </AdminRoute>
+          }
+        ></Route>
+        <Route
+          path="/admin/orders"
+          element={
+            <AdminRoute>
+              <Orders />
+            </AdminRoute>
+          }
+        ></Route>
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <Users />
+            </AdminRoute>
+          }
+        ></Route>
+        <Route
+          path="/admin/products"
+          element={
+            <AdminRoute>
+              <AdminProducts />
+            </AdminRoute>
+          }
+        ></Route>
+        <Route
+          path="/admin/updateProduct/:id"
+          element={
+            <AdminRoute>
+              <UpdateProduct />
+            </AdminRoute>
+          }
+        ></Route>
       </Routes>
       <Footer />
-    </div>
+    </Stack>
   );
 }
 

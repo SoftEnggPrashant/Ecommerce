@@ -1,35 +1,25 @@
 import { Button, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import React from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../Actions/UserActions";
 
 const Profile = (props) => {
+  const dispatch = useDispatch();
 
-  const {setAuthenticated} = props;
-  
-  const data = JSON.parse(localStorage.getItem("user"));
+  const { user } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
 
-  const logoutHandler = async()=>{
-
-    try{
-      const {data} = await axios.get('http://localhost:4000/api/v1/logout');
-      console.log(data);
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      setAuthenticated(false);
-      navigate("/login");
-    }catch(error){
-      console.log(error);
-    }
-
-  }
+  const logoutHandler = async () => {
+    dispatch(logOut());
+    navigate("/");
+  };
   return (
     <VStack w={"100%"} h={"100vh"}>
       <HStack h={"full"} w={"full"} justifyContent={"center"}>
         <VStack pr={5}>
-          <Image src={data.avatar.url} w={"15rem"} borderRadius={"full"} />
+          <Image src={user.avatar.url} w={"15rem"} borderRadius={"full"} />
         </VStack>
         <HStack gap={3} borderLeft={"4px"} h={"10rem"} borderColor={"gray.300"}>
           <VStack alignItems={"flex-start"} pl={5}>
@@ -37,8 +27,8 @@ const Profile = (props) => {
             <Text>Email</Text>
           </VStack>
           <VStack alignItems={"flex-start"} pl={5}>
-            <Text>{data.name}</Text>
-            <Text>{data.email}</Text>
+            <Text>{user.name}</Text>
+            <Text>{user.email}</Text>
           </VStack>
         </HStack>
       </HStack>

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     data:[],
+    totalProducts: 0,
     isLoading: false,
     error: null,
 };
@@ -15,9 +16,9 @@ export const productSlice = createSlice({
             state.error = null;
         },
         fetchProductSuccess: (state, action) => {
-            console.log("action param",action);
             state.isLoading = false;
             state.data = action.payload.products;
+            state.totalProducts = action.payload.productCount;
             state.error = null;
         },
         fetchProductFail: (state, action) => {

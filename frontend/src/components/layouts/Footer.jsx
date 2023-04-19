@@ -5,7 +5,7 @@ import { BsFacebook, BsTwitter, BsInstagram, BsLinkedin } from "react-icons/bs";
 const Footer = () => {
   return (
     <HStack
-      w={"full"}
+      w={"100%"}
       justifyContent={"center"}
       bgImage={"linear-gradient(to left top, #09203f 0%, #537895 100%)"}
       p={5}

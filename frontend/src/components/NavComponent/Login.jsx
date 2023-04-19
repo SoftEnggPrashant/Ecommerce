@@ -8,12 +8,14 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { loginUser } from "../../Actions/UserActions";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
-
-
-  const {login} = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -32,9 +34,9 @@ const Login = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (loginData.email || loginData.password) {
-      login(loginData);
-    }
-    else{
+      dispatch(loginUser(loginData));
+      navigate('/')
+    } else {
       toast.error("Please fill the all fields");
     }
     console.log(loginData);

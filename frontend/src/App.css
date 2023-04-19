@@ -39,3 +39,15 @@
   .custom-file-input:active::before {
     background: -webkit-linear-gradient(top, #a3bfdf, #f9f6f9);
   }
+
+  ::-webkit-scrollbar{
+    width: 0.6rem;
+  }
+  ::-webkit-scrollbar-track{
+    background: rgb(219, 212, 212);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb{
+    background:rgb(91, 91, 202);
+    border-radius: 5px;
+  }
